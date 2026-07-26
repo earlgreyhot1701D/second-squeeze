@@ -5,7 +5,7 @@
 - lm-eval-harness: 0.4.12
 - Python: 3.12.10 (in .venv)
 - OS: Windows 11
-- lemonade-eval commit: run `git -C lemonade-eval rev-parse --short HEAD` and paste it here
+- lemonade-eval commit: d39278e
 
 ## Hardware / backends
 - Machine: Lenovo IdeaPad Pro 5i, Intel Core Ultra 9 285H, NVIDIA RTX 5050, 32 GB RAM
