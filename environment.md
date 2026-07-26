@@ -5,7 +5,7 @@
 - lm-eval-harness: 0.4.12
 - Python: 3.12.10 (in .venv)
 - OS: Windows 11
-- lemonade-eval commit: d39278e
+- lemonade-eval commit: run `git -C lemonade-eval rev-parse --short HEAD` and paste it here
 
 ## Hardware / backends
 - Machine: Lenovo IdeaPad Pro 5i, Intel Core Ultra 9 285H, NVIDIA RTX 5050, 32 GB RAM
@@ -36,4 +36,4 @@ lemonade-eval -i Qwen3-0.6B-GGUF load --server-url http://localhost:13305 bench
 ```
 
 ## Note on accuracy benchmarks
-LAMBADA and other loglikelihood evals can't run through Lemonade: its API doesn't expose token logprobs. See README for the finding.
+LAMBADA and other loglikelihood evals need prompt-token logprobs, which my lm-eval run couldn't get from Lemonade's completions endpoint (a token_logprobs error). Filed as issue https://github.com/lemonade-sdk/lemonade/issues/2822 ; see README.

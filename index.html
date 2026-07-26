@@ -99,7 +99,7 @@
   </div>
 
   <div class="callout">
-    <b>The number that lied.</b> My first GPT-2 run measured 0.3 tok/s, which would make this a ~297× gap. But that run was contaminated: the GPU backend was still downloading and the 6.8 GB model was cold off disk while it timed itself. The reusable <code>bench_all.py</code> rerun gives a reproducible <b>8.5 tok/s</b>, so the honest gap is <b>~11×</b>. The tool I built to make this rigorous caught my own headline. That's the whole point of the project, in one incident.
+    <b>The number that lied.</b> My first GPT-2 run measured 0.3 tok/s, which would make this a ~297× gap. But that run was contaminated: the GPU backend was still downloading and the 6.8 GB model was cold off disk while it timed itself. The reusable <code>bench_all.py</code> rerun gives a reproducible <b>8.5 tok/s</b>, so the real gap is <b>~11×</b>. The tool I built to make this rigorous caught my own headline. That's the whole point of the project, in one incident.
   </div>
 
   <h2>The squeeze: same processor, six years apart</h2>
@@ -140,7 +140,7 @@
       <li><b>The number lied twice, and I caught it twice.</b> An early run compared GPT-2 on CPU to Qwen on GPU (a ~1000× gap that was mostly hardware); holding the backend fixed on CPU fixed that. And the very first GPT-2 CPU run read 0.3 tok/s under contaminated conditions; the reproducible rerun reads 8.5. Control your variables, and re-run, or the benchmark fools you.</li>
       <li>This is the practical 2019 stack vs the practical 2025 stack, not an isolation of architecture. The ~11× reflects everything at once: fewer parameters, better quantization (Q8 vs Q4), instruction tuning, and runtime support. Every difference is named on purpose.</li>
       <li>GPT-2 XL only ran on CPU; its 2019 architecture isn't supported on the GPU backend.</li>
-      <li>Accuracy benchmarks (LAMBADA, MMLU) aren't here because Lemonade's API doesn't expose token logprobs yet, so loglikelihood evals can't run through it. Documented and filed as a feature request.</li>
+      <li>Accuracy benchmarks (LAMBADA, MMLU) aren't here: they're loglikelihood-based and need per-token logprobs for the <em>prompt</em> tokens, which my lm-eval run couldn't get from Lemonade's completions endpoint (a <code>token_logprobs</code> error). Lemonade documents a logprobs option for output tokens, so it's the prompt-token side that's missing. Filed as <a href="https://github.com/lemonade-sdk/lemonade/issues/2822">issue #2822</a>; I measure speed and capability instead.</li>
     </ul>
   </div>
 

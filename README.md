@@ -1,5 +1,3 @@
-![Second Squeeze Banner](banner.png)
-
 # Second Squeeze
 
 *Squeeze a 2019 model and a 2025 model on the same laptop and see what actually changed.* Model archaeology, run entirely on Lemonade.
@@ -29,16 +27,16 @@ The tool I built to make the project rigorous immediately caught the project's o
 
 ## Two more ways the number tried to fool me
 
-1. **The backend confound.** An even earlier run compared GPT-2 on CPU to Qwen on GPU and showed a ~1000× gap. Most of that was hardware, not the models. Holding the backend fixed (both on CPU) gives the honest model gap.
-2. **The metric wall.** This started as an accuracy project, re-checking GPT-2's famous LAMBADA score. But that benchmark's number depends on how you score it (OpenAI's method vs the standard method differ by ~15 points on the same model), and it can't run through Lemonade at all because Lemonade's API doesn't expose token log-probabilities. So I pivoted to what Lemonade measures cleanly: speed and capability.
+1. **The backend confound.** An even earlier run compared GPT-2 on CPU to Qwen on GPU and showed a ~1000× gap. Most of that was hardware, not the models. Holding the backend fixed (both on CPU) gives the real model gap.
+2. **The metric wall.** This started as an accuracy project, re-checking GPT-2's famous LAMBADA score. But that benchmark's number depends on how you score it (OpenAI's method vs the standard method differ by ~15 points on the same model), and in my testing it wouldn't run through Lemonade: loglikelihood scoring needs per-token logprobs for the prompt tokens, and lm-eval-harness hit a `token_logprobs` error against Lemonade's completions endpoint. So I pivoted to what Lemonade measures cleanly: speed and capability.
 
 ## Same prompt, different decade
 
 Asked to complete "The capital of France is": GPT-2 (a base model with no instruction-following) emits chat-template tokens and Dart import statements. Qwen returns a clean, usable answer, "Paris," and even shows a short reasoning pass on the way. GPT-2 can't follow an instruction at all. See the dashboard.
 
-## The logprobs finding (reported back)
+## The logprobs limitation (reported back)
 
-Lemonade's own docs state token log-probabilities aren't available on its API yet, so loglikelihood/multiple-choice evals (LAMBADA, MMLU) can't run through it. That's a concrete gap in the local-eval story, surfaced by actually trying to use it, and filed as a feature request.
+I tried GPT-2's LAMBADA accuracy through Lemonade first, and it didn't work. Loglikelihood scoring needs per-token log-probabilities for the *prompt* tokens, and lm-eval-harness failed with a `token_logprobs` error against Lemonade's completions endpoint. Lemonade's API does document a `logprobs` option for *output* tokens, so the gap is narrower than "no logprobs": it's the prompt-token (echo) side that loglikelihood evals need. I filed a reproducible issue, [lemonade-sdk/lemonade#2822](https://github.com/lemonade-sdk/lemonade/issues/2822), asking the maintainers to confirm and, if needed, add it. Either way, it's why this project measures speed and capability, not accuracy.
 
 ## Why this exists
 
@@ -72,7 +70,3 @@ Not a reproduction of the original 2019 lab. Quantized weights on today's runtim
 
 ## Measured on
 Lenovo IdeaPad Pro 5i, Intel Core Ultra 9 285H, NVIDIA RTX 5050, 32 GB RAM, Windows 11. Lemonade 11.5.0. An AMD-GPU run is possible future work; the challenge allows any hardware.
-
----
-
-*AI Assisted. Human Reviewed. Powered by NLP.*
