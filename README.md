@@ -63,4 +63,4 @@ All speed numbers come from Lemonade's `bench` tool: 5 warmup + 10 timed runs, a
 - `LICENSE` — MIT.
 
 ## Measured on
-Lenovo IdeaPad Pro 5i, Intel Core Ultra 9 285H, NVIDIA RTX 5050, 32 GB RAM, Windows 11. Lemonade 11.5.0. Phase 2 (AMD GPU) pending.
+Lenovo IdeaPad Pro 5i, Intel Core Ultra 9 285H, NVIDIA RTX 5050, 32 GB RAM, Windows 11. Lemonade 11.5.0. An AMD-GPU run is possible future work; the challenge allows any hardware.
