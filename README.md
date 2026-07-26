@@ -1,3 +1,5 @@
+![Second Squeeze Banner](banner.png)
+
 # Second Squeeze
 
 *Squeeze a 2019 model and a 2025 model on the same laptop and see what actually changed.* Model archaeology, run entirely on Lemonade.
