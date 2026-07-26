@@ -1,0 +1,18 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+*.egg-info/
+
+# lemonade-eval clone (don't commit the whole tool into this repo)
+lemonade-eval/
+
+# raw eval dumps (keep results.csv, not the giant json)
+eval_output/
+*.log
+
+# OS
+.DS_Store
+Thumbs.db

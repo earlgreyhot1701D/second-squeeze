@@ -1,0 +1,6 @@
+model,year,params,maker,backend,tokens_per_sec,ttft_sec,peak_mem_gb,bench_config,date
+GPT-2 XL,2019,1.5B,OpenAI,cpu,0.306,3.798,8.38,10iter-5warmup-64prompt-32out,2026-07-26
+Qwen3-0.6B,2025,0.6B,Alibaba,cpu,90.845,0.069,8.71,10iter-5warmup-64prompt-32out,2026-07-26
+Qwen3-0.6B,2025,0.6B,Alibaba,gpu,358.662,0.015,9.36,10iter-5warmup-64prompt-32out,2026-07-26
+GPT-2 XL,2019,1.5B,OpenAI,gpu,,,,unsupported-2019-arch,2026-07-26
+Qwen3-0.6B,2025,0.6B,Alibaba,amd-gpu,,,,phase2-pending,
