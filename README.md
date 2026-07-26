@@ -60,3 +60,13 @@ All speed numbers come from Lemonade's `bench` tool: 5 warmup + 10 timed runs, a
 
 ## Measured on
 Lenovo IdeaPad Pro 5i, Intel Core Ultra 9 285H, NVIDIA RTX 5050, 32 GB RAM, Windows 11. Lemonade 11.5.0. An AMD-GPU run is possible future work; the challenge allows any hardware.
+
+## Reproduce
+
+1. Install and start the Lemonade app (server runs on `http://localhost:13305`).
+2. Pull the models: `user.gpt2xl` and `Qwen3-0.6B-GGUF`.
+3. Run:
+   ```
+   python bench_all.py
+   ```
+   This reruns every benchmark and rewrites `results.csv`.
