@@ -79,7 +79,7 @@
   <div class="topbar">
     <div>
       <h1>🍋 Second Squeeze</h1>
-      <p class="sub">It wasn't the hardware, it was the models. A <b>smaller</b> 2025 model laps a bigger 2019 one by ~300× on the same CPU. Model archaeology, measured carefully on Lemonade.</p>
+      <p class="sub">The 2019 vs 2025 local-AI stack, squeezed on one laptop. A smaller 2025 model runs ~300× faster on the same CPU and actually answers. Measured carefully on Lemonade.</p>
     </div>
     <button class="toggle" id="themeBtn">◐ theme</button>
   </div>
@@ -123,7 +123,7 @@
   </div>
 
   <h2>Same prompt, different decade</h2>
-  <div class="note">Prompt sent to both: <span class="prompt" id="cap-prompt">The capital of France is</span>. GPT-2 is a base model with no instruction-following, so it just continues text (here, Dart imports), and it often times out mid-answer: at 0.3 tok/s it's slow enough to trip the chat interface's own network timeout. Qwen not only answers, it runs a short reasoning pass first. A 0.6B model from 2025 out-thinking a 1.5B model from 2019.</div>
+  <div class="note">Prompt sent to both: <span class="prompt" id="cap-prompt">The capital of France is</span>. GPT-2 is a base model with no instruction-following, so it just continues text (here, Dart imports), and it often times out mid-answer: at 0.3 tok/s it's slow enough to trip the chat interface's own network timeout. Qwen returns a clean, usable answer and even shows a short reasoning pass. A 0.6B model from 2025 follows an instruction the 1.5B model from 2019 can't.</div>
   <div class="card">
     <div class="cap" id="capPanel"></div>
   </div>

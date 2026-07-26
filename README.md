@@ -8,11 +8,7 @@
 
 ## The thing most people have backwards
 
-You can run real AI on a laptop now. Almost everyone assumes that's because the hardware got fast enough. Run the receipts and it's the opposite: the models got radically more efficient. A 2025 model that is **smaller** than a 2019 one (0.6B vs 1.5B parameters) generates tokens about **297× faster on the exact same CPU**, and actually answers the question instead of producing gibberish. The leap was design, not silicon.
-
-That is the non-obvious claim. "Newer is faster" is boring and expected. "A smaller newer model laps a bigger older one by 300× on identical hardware, so the revolution was efficiency, not your chip" is the part worth measuring.
-
-And you can't even see it clearly unless you measure carefully, which is the other half of this project.
+You can run real AI on a laptop now. Almost everyone assumes that's because the hardware got fast enough. Run the receipts and the bigger driver is the software: six years of progress across the whole local-AI stack, smaller models, better quantization, instruction tuning, and runtime support, stacked together. A 2025 model that is smaller than a 2019 one generates tokens about 297x faster on the exact same CPU and actually answers the question. This isn't an isolation of any single cause, it's the practical 2019 stack versus the practical 2025 stack. That gap, not "newer is faster," is what's worth measuring.
 
 ## The numbers (same CPU, six years apart)
 
@@ -35,7 +31,7 @@ Control your variables or the benchmark lies to you. That's the transferable les
 ## Two findings I wasn't looking for
 
 - **The 2019 model is so slow it breaks modern software.** At 0.3 tok/s, GPT-2 XL times out the chat interface mid-answer ("network error"). It can't finish a sentence before a modern UI gives up. That's a usability cliff, not a gradient.
-- **The 2025 model reasons.** Qwen3-0.6B runs a short "thinking" pass before answering. A 0.6B model out-thinking a 1.5B one.
+- **The 2025 model actually follows instructions.** Qwen3-0.6B returns a clean, usable answer (and shows a short reasoning pass on the way). GPT-2 can't follow an instruction at all.
 
 ## Same prompt, different decade
 
