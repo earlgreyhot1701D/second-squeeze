@@ -4,7 +4,7 @@
 
 *Squeeze a 2019 model and a 2025 model on the same laptop and see what actually changed.* Model archaeology, run entirely on Lemonade.
 
-**Live dashboard:** https://<you>.github.io/second-squeeze/ (turn on GitHub Pages, see PUBLISH.md)
+**Live dashboard:** https://earlgreyhot1701d.github.io/second-squeeze/
 
 ## The thing most people have backwards
 
