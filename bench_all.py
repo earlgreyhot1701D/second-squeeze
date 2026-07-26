@@ -45,6 +45,7 @@ def parse_metrics(output):
     Raises ValueError if any required metric is missing, so a changed output
     format fails loudly instead of writing a blank cell.
     """
+    output = re.sub(r"\x1b\[[0-9;]*m", "", output)  # strip ANSI color codes
     metrics = {}
     for key, (pattern, conv) in PATTERNS.items():
         m = re.search(pattern, output)

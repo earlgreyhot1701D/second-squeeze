@@ -9,18 +9,14 @@
     color-scheme:light;
     --plane:#f9f9f7; --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --muted:#898781;
     --grid:#e1e0d9; --axis:#c3c2b7; --border:rgba(11,11,11,.10);
-    --old:#2a78d6;    /* 2019 / GPT-2 */
-    --new:#1baf7a;    /* 2025 / Qwen */
-    --cpu:#eb6834;    /* CPU */
-    --gpu:#4a3aa7;    /* GPU */
+    --old:#2a78d6; --new:#1baf7a; --cpu:#eb6834; --gpu:#4a3aa7;
     --lemon:#eda100; --lemon-soft:#fff6d1; --good:#0ca30c;
   }
   :root[data-theme="dark"] .viz-root{
     color-scheme:dark;
     --plane:#0d0d0d; --surface:#1a1a19; --ink:#fff; --ink2:#c3c2b7; --muted:#898781;
     --grid:#2c2c2a; --axis:#383835; --border:rgba(255,255,255,.10);
-    --old:#3987e5; --new:#199e70; --cpu:#d95926; --gpu:#9085e9;
-    --lemon:#c98500; --lemon-soft:#2a2413;
+    --old:#3987e5; --new:#199e70; --cpu:#d95926; --gpu:#9085e9; --lemon:#c98500; --lemon-soft:#2a2413;
   }
   @media (prefers-color-scheme:dark){
     :root:not([data-theme="light"]) .viz-root{
@@ -36,7 +32,7 @@
   .wrap{max-width:900px;margin:0 auto;padding:28px 20px 70px;}
   .topbar{display:flex;justify-content:space-between;align-items:flex-start;gap:12px;flex-wrap:wrap;}
   h1{font-size:26px;margin:0 0 2px;}
-  .sub{color:var(--ink2);font-size:15px;margin:0;max-width:640px;}
+  .sub{color:var(--ink2);font-size:15px;margin:0;max-width:660px;}
   h2{font-size:18px;margin:34px 0 4px;}
   .note{font-size:13.5px;color:var(--ink2);margin:4px 0 8px;}
   .toggle{border:1px solid var(--border);background:var(--surface);color:var(--ink2);
@@ -47,6 +43,7 @@
   .tile .v{font-size:32px;font-weight:700;margin-top:2px;line-height:1.05;}
   .tile .n{font-size:12.5px;color:var(--ink2);margin-top:3px;}
   .card{background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:16px 18px;margin:10px 0;}
+  .callout{background:var(--lemon-soft);border:1px solid var(--lemon);border-radius:12px;padding:14px 18px;margin:14px 0;font-size:14px;}
   .legend{display:flex;gap:16px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin-bottom:8px;}
   .legend span{display:inline-flex;align-items:center;gap:6px;}
   .sw{width:12px;height:12px;border-radius:3px;display:inline-block;}
@@ -69,7 +66,6 @@
   ul.notes li{margin:5px 0;}
   .foot{margin-top:32px;font-size:12px;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;}
   code{background:var(--lemon-soft);border-radius:5px;padding:1px 6px;font-size:12.5px;}
-  .todo{color:var(--muted);font-style:italic;}
 </style>
 </head>
 <body>
@@ -79,7 +75,7 @@
   <div class="topbar">
     <div>
       <h1>🍋 Second Squeeze</h1>
-      <p class="sub">The 2019 vs 2025 local-AI stack, squeezed on one laptop. A smaller 2025 model runs ~300× faster on the same CPU and actually answers. Measured carefully on Lemonade.</p>
+      <p class="sub">The 2019 vs 2025 local-AI stack, squeezed on one laptop. A smaller 2025 model runs ~11× faster on the same CPU and actually answers. Measured carefully, and re-measured when the first number lied.</p>
     </div>
     <button class="toggle" id="themeBtn">◐ theme</button>
   </div>
@@ -87,29 +83,33 @@
   <div class="tiles">
     <div class="tile">
       <div class="k">Same CPU, 2019 vs 2025</div>
-      <div class="v" style="color:var(--new)" id="t-era">297×</div>
-      <div class="n">faster token generation, 2025 model over 2019 model, identical processor</div>
+      <div class="v" style="color:var(--new)" id="t-era">11×</div>
+      <div class="n">faster token generation, smaller 2025 model over bigger 2019 model, identical processor</div>
     </div>
     <div class="tile">
       <div class="k">First token</div>
-      <div class="v" style="color:var(--new)" id="t-ttft">55×</div>
+      <div class="v" style="color:var(--new)" id="t-ttft">24×</div>
       <div class="n">quicker to start answering</div>
     </div>
     <div class="tile">
       <div class="k">GPU vs CPU (2025 model)</div>
-      <div class="v" style="color:var(--gpu)" id="t-hw">4×</div>
+      <div class="v" style="color:var(--gpu)" id="t-hw">3.8×</div>
       <div class="n">the lift from the graphics card</div>
     </div>
   </div>
 
+  <div class="callout">
+    <b>The number that lied.</b> My first GPT-2 run measured 0.3 tok/s, which would make this a ~297× gap. But that run was contaminated: the GPU backend was still downloading and the 6.8 GB model was cold off disk while it timed itself. The reusable <code>bench_all.py</code> rerun gives a reproducible <b>8.5 tok/s</b>, so the honest gap is <b>~11×</b>. The tool I built to make this rigorous caught my own headline. That's the whole point of the project, in one incident.
+  </div>
+
   <h2>The squeeze: same processor, six years apart</h2>
-  <div class="note">Both models on the same CPU, so this measures the models, not the hardware. Tokens generated per second (higher is better). Note the log scale, the gap is so wide a normal scale would hide GPT-2 entirely, which is itself the story.</div>
+  <div class="note">Both models on the same CPU, so this measures the models, not the hardware. Tokens generated per second, higher is better.</div>
   <div class="card">
     <div class="legend">
       <span><i class="sw" style="background:var(--old)"></i>GPT-2 XL · 2019 · 1.5B</span>
       <span><i class="sw" style="background:var(--new)"></i>Qwen3-0.6B · 2025 · 0.6B</span>
     </div>
-    <svg id="eraChart" viewBox="0 0 720 160" role="img" aria-label="Token generation speed, GPT-2 XL versus Qwen3, log scale"></svg>
+    <svg id="eraChart" viewBox="0 0 720 150" role="img" aria-label="Token generation speed, GPT-2 XL versus Qwen3, same CPU"></svg>
   </div>
 
   <h2>The hardware lift: same model, CPU vs GPU</h2>
@@ -123,7 +123,7 @@
   </div>
 
   <h2>Same prompt, different decade</h2>
-  <div class="note">Prompt sent to both: <span class="prompt" id="cap-prompt">The capital of France is</span>. GPT-2 is a base model with no instruction-following, so it just continues text (here, Dart imports), and it often times out mid-answer: at 0.3 tok/s it's slow enough to trip the chat interface's own network timeout. Qwen returns a clean, usable answer and even shows a short reasoning pass. A 0.6B model from 2025 follows an instruction the 1.5B model from 2019 can't.</div>
+  <div class="note">Prompt sent to both: <span class="prompt" id="cap-prompt">The capital of France is</span>. GPT-2 is a base model with no instruction-following, so it just continues text. Qwen follows the instruction and answers.</div>
   <div class="card">
     <div class="cap" id="capPanel"></div>
   </div>
@@ -136,10 +136,11 @@
   <h2>How this was measured, and what it isn't</h2>
   <div class="card">
     <ul class="notes">
-      <li>All numbers from Lemonade's <code>bench</code> tool: <span id="m-cfg"></span>. Same settings for every model.</li>
-      <li>The era comparison holds the backend fixed (CPU) on purpose. An earlier run accidentally compared GPT-2 on CPU to Qwen on GPU and showed a ~1000× gap that was mostly hardware. Controlling the backend is the difference between a real finding and a misleading one.</li>
-      <li>GPT-2 XL only ran on CPU. Its 2019 architecture isn't supported on the GPU backend, so it never got the acceleration the newer model did. Part of the story, not a bug.</li>
-      <li>Accuracy benchmarks (like LAMBADA) aren't here because Lemonade's server doesn't expose token logprobs yet, so loglikelihood evals can't run through it. That gap is written up separately and filed as a feature request.</li>
+      <li>All numbers from Lemonade's <code>bench</code> tool: <span id="m-cfg"></span>. Same settings for every model, regenerated by <code>bench_all.py</code> so anyone can reproduce them.</li>
+      <li><b>The number lied twice, and I caught it twice.</b> An early run compared GPT-2 on CPU to Qwen on GPU (a ~1000× gap that was mostly hardware); holding the backend fixed on CPU fixed that. And the very first GPT-2 CPU run read 0.3 tok/s under contaminated conditions; the reproducible rerun reads 8.5. Control your variables, and re-run, or the benchmark fools you.</li>
+      <li>This is the practical 2019 stack vs the practical 2025 stack, not an isolation of architecture. The ~11× reflects everything at once: fewer parameters, better quantization (Q8 vs Q4), instruction tuning, and runtime support. Every difference is named on purpose.</li>
+      <li>GPT-2 XL only ran on CPU; its 2019 architecture isn't supported on the GPU backend.</li>
+      <li>Accuracy benchmarks (LAMBADA, MMLU) aren't here because Lemonade's API doesn't expose token logprobs yet, so loglikelihood evals can't run through it. Documented and filed as a feature request.</li>
     </ul>
   </div>
 
@@ -149,20 +150,20 @@
 </div>
 
 <script>
-/* ===== EDIT ME: real measurements from Lemonade bench ===== */
+/* ===== real measurements from bench_all.py (regenerate with: python bench_all.py) ===== */
 const DATA = {
   bench: { iterations:10, warmup:5, promptTokens:64, outputTokens:32 },
   models: [
     { name:"GPT-2 XL", year:2019, params:"1.5B", maker:"OpenAI",
-      cpu:{ tps:0.306, ttft:3.798, memGB:8.38 }, gpu:null,
+      cpu:{ tps:8.499, ttft:1.689, memGB:9.70 }, gpu:null,
       note:"GPU unsupported (2019 arch)" },
     { name:"Qwen3-0.6B", year:2025, params:"0.6B", maker:"Alibaba",
-      cpu:{ tps:90.845, ttft:0.069, memGB:8.71 },
-      gpu:{ tps:358.662, ttft:0.015, memGB:9.36 }, note:"" },
+      cpu:{ tps:90.853, ttft:0.07, memGB:9.68 },
+      gpu:{ tps:347.412, ttft:0.015, memGB:9.35 }, note:"" },
   ],
   capability: {
     prompt:"The capital of France is",
-    gpt2:"<|im_end|>\n<|im_start|>assistant\n<|im_end|> import 'package:flutter/cupertino.dart';\nimport 'package:flutter/material.dart';\nimport 'package:flutter_bloc/flutter_bloc.dart';\nimport 'package:flutter_staggered_grid/flutter_staggered_grid.dart';\nimport 'package:golden_flutter/golden_flutter.dart';\nimport ...\n\n(On other tries it spat raw <|im_start|> / <|im_end|> chat tokens and then errored out with 'network error' partway through, too slow to finish. See the note above.)",
+    gpt2:"<|im_end|>\n<|im_start|>assistant\n<|im_end|> import 'package:flutter/cupertino.dart';\nimport 'package:flutter/material.dart';\nimport 'package:flutter_bloc/flutter_bloc.dart';\nimport 'package:flutter_staggered_grid/flutter_staggered_grid.dart';\nimport 'package:golden_flutter/golden_flutter.dart';\nimport ...\n\n(A base model with no idea what a chat is: it emits chat-template tokens and autocompletes into random code.)",
     qwen:"The capital of France is Paris. If you have any other questions about France, feel free to ask! 😊\n\n(Qwen even ran a short 'Thinking' reasoning pass before answering.)",
   },
   env: { lemonade:"11.5.0", date:"2026-07-26",
@@ -173,31 +174,8 @@ const DATA = {
 const cssv = n => getComputedStyle(document.querySelector('.viz-root')).getPropertyValue(n).trim();
 const gpt2 = DATA.models[0], qwen = DATA.models[1];
 
-function logBars(svgId, rows, {min=0.1,max=1000}={}){
-  const W=720,H=160, mL=150,mR=60,mT=10,mB=28;
-  const plotW=W-mL-mR, plotH=H-mT-mB;
-  const lo=Math.log10(min), hi=Math.log10(max);
-  const x = v => mL + (Math.log10(v)-lo)/(hi-lo)*plotW;
-  let s="";
-  for(let e=lo; e<=hi; e++){
-    const gx=x(Math.pow(10,e));
-    s+=`<line x1="${gx}" y1="${mT}" x2="${gx}" y2="${mT+plotH}" stroke="${cssv('--grid')}" stroke-width="1"/>`;
-    s+=`<text class="ax" x="${gx}" y="${mT+plotH+16}" text-anchor="middle">${Math.pow(10,e)>=1?Math.pow(10,e):Math.pow(10,e).toFixed(1)}</text>`;
-  }
-  const bh=Math.min(34,(plotH/rows.length)-14);
-  rows.forEach((r,i)=>{
-    const cy=mT + (plotH/rows.length)*i + (plotH/rows.length)/2;
-    const bw=x(r.v)-mL;
-    s+=`<text class="barlbl" x="${mL-10}" y="${cy+4}" text-anchor="end">${r.label}</text>`;
-    s+=`<rect x="${mL}" y="${cy-bh/2}" width="${Math.max(1,bw).toFixed(1)}" height="${bh}" rx="3" fill="${r.color}"><title>${r.label}: ${r.v} tok/s</title></rect>`;
-    s+=`<text class="barval" x="${x(r.v)+7}" y="${cy+4}" fill="${cssv('--ink')}">${r.v} tok/s</text>`;
-  });
-  s+=`<text class="ax" x="${mL}" y="${H-4}" text-anchor="start">tokens per second (log scale)</text>`;
-  document.getElementById(svgId).innerHTML=s;
-}
-
 function linBars(svgId, rows){
-  const W=720,H=150, mL=150,mR=90,mT=10,mB=20;
+  const W=720,H=150, mL=170,mR=95,mT=10,mB=22;
   const plotW=W-mL-mR, plotH=H-mT-mB;
   const max=Math.max(...rows.map(r=>r.v))*1.1;
   const x=v=>mL+(v/max)*plotW;
@@ -206,8 +184,8 @@ function linBars(svgId, rows){
   rows.forEach((r,i)=>{
     const cy=mT+(plotH/rows.length)*i+(plotH/rows.length)/2;
     s+=`<text class="barlbl" x="${mL-10}" y="${cy+4}" text-anchor="end">${r.label}</text>`;
-    s+=`<rect x="${mL}" y="${cy-bh/2}" width="${Math.max(1,x(r.v)-mL).toFixed(1)}" height="${bh}" rx="3" fill="${r.color}"><title>${r.label}: ${r.v} tok/s</title></rect>`;
-    s+=`<text class="barval" x="${x(r.v)+7}" y="${cy+4}">${r.v} tok/s</text>`;
+    s+=`<rect x="${mL}" y="${cy-bh/2}" width="${Math.max(2,x(r.v)-mL).toFixed(1)}" height="${bh}" rx="3" fill="${r.color}"><title>${r.label}: ${r.v} tok/s</title></rect>`;
+    s+=`<text class="barval" x="${(x(r.v)+7).toFixed(1)}" y="${cy+4}">${r.v} tok/s</text>`;
   });
   s+=`<text class="ax" x="${mL}" y="${H-2}" text-anchor="start">tokens per second</text>`;
   document.getElementById(svgId).innerHTML=s;
@@ -239,11 +217,11 @@ function fillMeta(){
   const b=DATA.bench;
   document.getElementById('m-cfg').textContent=`${b.warmup} warmup + ${b.iterations} timed runs, ${b.promptTokens}-token prompt, ${b.outputTokens} tokens out`;
   const e=DATA.env;
-  document.getElementById('envFoot').innerHTML=`Measured on ${e.laptop}. Lemonade ${e.lemonade} · run ${e.date}. Repo README documents the full method and the logprobs finding.`;
+  document.getElementById('envFoot').innerHTML=`Measured on ${e.laptop}. Lemonade ${e.lemonade} · run ${e.date}. Regenerate with <code>python bench_all.py</code>. Full method in the repo README.`;
 }
 
 function renderAll(){
-  logBars('eraChart',[
+  linBars('eraChart',[
     {label:'GPT-2 XL (2019)', v:gpt2.cpu.tps, color:cssv('--old')},
     {label:'Qwen3-0.6B (2025)', v:qwen.cpu.tps, color:cssv('--new')},
   ]);

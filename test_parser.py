@@ -50,6 +50,15 @@ class TestParseMetrics(unittest.TestCase):
         m = parse_metrics(SAMPLE_GPU)
         self.assertNotAlmostEqual(m["tokens_per_sec"], 4165.663)
 
+    def test_strips_ansi_color_codes(self):
+        # Lemonade colorizes output; the reset code must not end up in the CSV.
+        colored = "Backend:                            llamacpp cpu\x1b[0m\n" \
+                  "Seconds To First Token:             1.689\n" \
+                  "Token Generation Tokens Per Second: 8.499\n" \
+                  "Max Memory Used Gbyte:              9.703\n"
+        m = parse_metrics(colored)
+        self.assertEqual(m["backend"], "llamacpp cpu")
+
     def test_raises_when_metric_missing(self):
         with self.assertRaises(ValueError):
             parse_metrics("Backend: llamacpp cpu\n(no speed metrics here)")

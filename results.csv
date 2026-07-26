@@ -1,4 +1,4 @@
 model,year,params,maker,backend,tokens_per_sec,ttft_sec,peak_mem_gb,bench_config,date
-GPT-2 XL,2019,1.5B,OpenAI,llamacpp cpu[0m,8.499,1.689,9.703,10iter-5warmup-64prompt-32out,2026-07-26
-Qwen3-0.6B,2025,0.6B,Alibaba,llamacpp cpu[0m,90.853,0.07,9.683,10iter-5warmup-64prompt-32out,2026-07-26
-Qwen3-0.6B,2025,0.6B,Alibaba,llamacpp gpu[0m,347.412,0.015,9.354,10iter-5warmup-64prompt-32out,2026-07-26
+GPT-2 XL,2019,1.5B,OpenAI,llamacpp cpu,8.499,1.689,9.703,10iter-5warmup-64prompt-32out,2026-07-26
+Qwen3-0.6B,2025,0.6B,Alibaba,llamacpp cpu,90.853,0.07,9.683,10iter-5warmup-64prompt-32out,2026-07-26
+Qwen3-0.6B,2025,0.6B,Alibaba,llamacpp gpu,347.412,0.015,9.354,10iter-5warmup-64prompt-32out,2026-07-26
