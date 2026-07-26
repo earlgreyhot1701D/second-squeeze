@@ -72,3 +72,7 @@ Not a reproduction of the original 2019 lab. Quantized weights on today's runtim
 
 ## Measured on
 Lenovo IdeaPad Pro 5i, Intel Core Ultra 9 285H, NVIDIA RTX 5050, 32 GB RAM, Windows 11. Lemonade 11.5.0. An AMD-GPU run is possible future work; the challenge allows any hardware.
+
+---
+
+*AI Assisted. Human Reviewed. Powered by NLP.*
