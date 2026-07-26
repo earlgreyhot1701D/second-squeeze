@@ -63,10 +63,11 @@ Lenovo IdeaPad Pro 5i, Intel Core Ultra 9 285H, NVIDIA RTX 5050, 32 GB RAM, Wind
 
 ## Reproduce
 
-1. Install and start the Lemonade app (server runs on `http://localhost:13305`).
-2. Pull the models: `user.gpt2xl` and `Qwen3-0.6B-GGUF`.
-3. Run:
-   ```
-   python bench_all.py
-   ```
-   This reruns every benchmark and rewrites `results.csv`.
+Start the Lemonade app (server on localhost:13305) with the models pulled, then, inside the project's .venv:
+
+```
+python bench_all.py             # reruns every benchmark, rewrites results.csv
+python -m unittest test_parser  # verifies the output parser
+```
+
+Fails loudly if the server is down, a model is missing, or the output format changed. No partial CSVs.
